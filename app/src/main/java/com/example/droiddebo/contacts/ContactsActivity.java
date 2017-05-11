@@ -4,6 +4,7 @@ import android.app.LoaderManager;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -76,6 +77,10 @@ public class ContactsActivity extends AppCompatActivity implements LoaderManager
 
         // Set empty state text to display "No earthquakes found."
         mEmptyStateTextView.setText(R.string.no_contacts);
+
+        // Hide loading indicator because the data has been loaded
+        View loadingIndicator = findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
     }
 
     @Override
