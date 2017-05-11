@@ -3,4 +3,8 @@
     <color name="colorPrimary">#03A9F4</color>
     <color name="colorPrimaryDark">#0288D1</color>
     <color name="colorAccent">#FF5252</color>
+    <color name="textColorName">#03A9F4</color>
+    <color name="textColorEmail">#B4BAC0</color>
+    <color name="textColorPhone">#B4BAC0</color>
+    <color name="textColorGender">#03A9F4</color>
 </resources>

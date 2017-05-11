@@ -2,36 +2,69 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="80dp"
     android:orientation="horizontal"
-    android:padding="16dp">
-    
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        tools:text="Ravi Tamada"/>
+    android:paddingEnd="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingStart="16dp">
 
-    <TextView
-        android:id="@+id/email"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        tools:text="ravi@gmail.com" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/gender"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        tools:text="Male" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:textAllCaps="true"
+            android:textColor="@color/textColorName"
+            android:textSize="16sp"
+            tools:text="Ravi Tamada" />
 
-    <TextView
-        android:id="@+id/phone"
-        android:layout_width="0dp"
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/textColorEmail"
+            android:textSize="12sp"
+            tools:text="ravi@gmail.com" />
+
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/textColorPhone"
+            android:textSize="12sp"
+            tools:text="+91 0000" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        tools:text="+91 0000" />
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorGender"
+            android:textSize="12sp"
+            tools:text="Male" />
+    </LinearLayout>
 
 </LinearLayout>
