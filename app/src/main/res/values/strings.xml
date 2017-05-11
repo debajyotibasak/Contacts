@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Contacts</string>
+
+    <!-- Text to display in the list when there are no earthquakes [CHAR LIMIT=NONE] -->
+    <string name="no_contacts">No earthquakes found.</string>
+
 </resources>

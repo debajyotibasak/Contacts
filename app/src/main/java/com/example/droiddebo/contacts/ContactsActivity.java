@@ -2,10 +2,10 @@ package com.example.droiddebo.contacts;
 
 import android.app.LoaderManager;
 import android.content.Loader;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,9 @@ public class ContactsActivity extends AppCompatActivity implements LoaderManager
     //URL for fetching contacts data
     private static final String REQUEST_URL = "http://api.androidhive.info/contacts/";
 
+    /** TextView that is displayed when the list is empty */
+    private TextView mEmptyStateTextView;
+
     /**
      * Constant value for the contacts loader ID. We can choose any integer.
      * This really only comes into play if you're using multiple loaders.
@@ -23,6 +26,7 @@ public class ContactsActivity extends AppCompatActivity implements LoaderManager
 
     //Adapter for the list of Contacts
     private ContactsAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,9 @@ public class ContactsActivity extends AppCompatActivity implements LoaderManager
         // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
         // because this activity implements the LoaderCallbacks interface).
         loaderManager.initLoader(CONTACTS_LOADER_ID, null, this);
+
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        contactListView.setEmptyView(mEmptyStateTextView);
     }
 
     @Override
@@ -66,6 +73,9 @@ public class ContactsActivity extends AppCompatActivity implements LoaderManager
         if (contacts != null && !contacts.isEmpty()) {
             mAdapter.addAll(contacts);
         }
+
+        // Set empty state text to display "No earthquakes found."
+        mEmptyStateTextView.setText(R.string.no_contacts);
     }
 
     @Override
