@@ -1,36 +1,64 @@
 package com.example.droiddebo.contacts;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactsActivity extends AppCompatActivity {
+
+    //URL for fetching contacts data
+    private static final String REQUEST_URL = "http://api.androidhive.info/contacts/";
+
+    //Adapter for the list of Earthquake
+    private ContactsAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contacts_activity);
 
-        // Fake Contacts
-        ArrayList<Contacts> contacts = new ArrayList<>();
-        contacts.add(new Contacts("Ravi Tamada", "ravi@gmail.com", "Male", "+91 0000"));
-        contacts.add(new Contacts("Ravi Tamada", "ravi@gmail.com", "Male", "+91 0000"));
-        contacts.add(new Contacts("Ravi Tamada", "ravi@gmail.com", "Male", "+91 0000"));
-        contacts.add(new Contacts("Ravi Tamada", "ravi@gmail.com", "Male", "+91 0000"));
-        contacts.add(new Contacts("Ravi Tamada", "ravi@gmail.com", "Male", "+91 0000"));
-        contacts.add(new Contacts("Ravi Tamada", "ravi@gmail.com", "Male", "+91 0000"));
-        contacts.add(new Contacts("Ravi Tamada", "ravi@gmail.com", "Male", "+91 0000"));
-        contacts.add(new Contacts("Ravi Tamada", "ravi@gmail.com", "Male", "+91 0000"));
-        contacts.add(new Contacts("Ravi Tamada", "ravi@gmail.com", "Male", "+91 0000"));
+        //Find the reference to the list in the layout
+        ListView contactListView = (ListView) findViewById(R.id.list);
 
-        //Create a New ArrayAdapter of Contacts
-        ContactsAdapter adapter = new ContactsAdapter(this, contacts);
+        //Create an Adapter that takes an Empty List of Contacts
+        mAdapter = new ContactsAdapter(this, new ArrayList<Contacts>());
 
-        //Set the Adapter so that the list can be populated in the UI
-        //Linking ListView in Layout
-        ListView listView = (ListView) findViewById(R.id.list);
-        listView.setAdapter(adapter);
+        // Set the adapter so that the list can be populated in the user interface
+        contactListView.setAdapter(mAdapter);
+
+        //Start the Async Task to fetch contact data
+        ContactsAsyncTask task = new ContactsAsyncTask();
+        task.execute(REQUEST_URL);
+    }
+
+    private class ContactsAsyncTask extends AsyncTask<String, Void, List<Contacts>> {
+
+        @Override
+        protected List<Contacts> doInBackground(String... urls) {
+            // Don't perform the request if there are no URLs, or the first URL is null
+            if (urls.length < 1 || urls[0] == null) {
+                return null;
+            }
+
+            List<Contacts> result = QueryUtils.fetchContactsData(urls[0]);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(List<Contacts> data) {
+            // Clear the adapter of previous contacts data
+            mAdapter.clear();
+
+            // If there is a valid list of Contacts then add them to the adapter's
+            // data set. This will trigger the ListView to update.
+            if (data != null && !data.isEmpty()) {
+                mAdapter.addAll(data);
+            }
+        }
     }
 }
+

@@ -18,12 +18,16 @@ public class Contacts {
     // Phone no. of the Contact;
     private String mPhone;
 
+    // Website URL of the earthquake
+    //private String mUrl;
+
     //public constructor
-    public Contacts(String name, String email, String gender, String phone){
+    public Contacts(String name, String email, String gender, String phone /*String url*/){
         mName = name;
         mEmail = email;
         mGender = gender;
         mPhone = phone;
+        //mUrl = url;
     }
 
     //Returns Name
@@ -37,4 +41,7 @@ public class Contacts {
 
     //Returns Phone No.
     public String getPhone() { return mPhone; }
+
+    //Returns URL
+    //public String getURL() { return mUrl; }
 }
