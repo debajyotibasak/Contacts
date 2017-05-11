@@ -1,5 +1,7 @@
 package com.example.droiddebo.contacts;
 
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,12 +10,18 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactsActivity extends AppCompatActivity {
+public class ContactsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Contacts>>{
 
     //URL for fetching contacts data
     private static final String REQUEST_URL = "http://api.androidhive.info/contacts/";
 
-    //Adapter for the list of Earthquake
+    /**
+     * Constant value for the contacts loader ID. We can choose any integer.
+     * This really only comes into play if you're using multiple loaders.
+     */
+    private static final int CONTACTS_LOADER_ID = 1;
+
+    //Adapter for the list of Contacts
     private ContactsAdapter mAdapter;
 
     @Override
@@ -31,11 +39,42 @@ public class ContactsActivity extends AppCompatActivity {
         contactListView.setAdapter(mAdapter);
 
         //Start the Async Task to fetch contact data
-        ContactsAsyncTask task = new ContactsAsyncTask();
-        task.execute(REQUEST_URL);
+        /*ContactsAsyncTask task = new ContactsAsyncTask();
+          task.execute(REQUEST_URL);*/
+
+        // Get a reference to the LoaderManager, in order to interact with loaders.
+        LoaderManager loaderManager = getLoaderManager();
+
+        // Initialize the loader. Pass in the int ID constant defined above and pass in null for
+        // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
+        // because this activity implements the LoaderCallbacks interface).
+        loaderManager.initLoader(CONTACTS_LOADER_ID, null, this);
     }
 
-    private class ContactsAsyncTask extends AsyncTask<String, Void, List<Contacts>> {
+    @Override
+    public Loader<List<Contacts>> onCreateLoader(int id, Bundle bundle) {
+        // Create a new loader for the given URL
+        return new ContactsLoader(this, REQUEST_URL);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Contacts>> loader, List<Contacts> contacts) {
+        // Clear the adapter of previous contacts data
+        mAdapter.clear();
+
+        // If there is a valid list of Contacts, then add them to the adapter's data set. This will trigger the ListView to update.
+        if (contacts != null && !contacts.isEmpty()) {
+            mAdapter.addAll(contacts);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Contacts>> loader) {
+        // Loader reset, so we can clear out our existing data.
+        mAdapter.clear();
+    }
+
+    /*private class ContactsAsyncTask extends AsyncTask<String, Void, List<Contacts>> {
 
         @Override
         protected List<Contacts> doInBackground(String... urls) {
@@ -59,6 +98,6 @@ public class ContactsActivity extends AppCompatActivity {
                 mAdapter.addAll(data);
             }
         }
-    }
+    }*/
 }
 
