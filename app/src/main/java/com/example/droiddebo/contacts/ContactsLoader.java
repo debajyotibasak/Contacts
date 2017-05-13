@@ -1,7 +1,9 @@
 package com.example.droiddebo.contacts;
 
+import android.app.Activity;
 import android.content.AsyncTaskLoader;
-import android.content.Context;
+
+import com.example.droiddebo.contacts.DbUtils.DbHelper;
 
 import java.util.List;
 
@@ -16,10 +18,13 @@ public class ContactsLoader extends AsyncTaskLoader<List<Contacts>> {
      * Query URL
      */
     private String mUrl;
+    private Activity mActivity;
 
-    public ContactsLoader(Context context, String url) {
-        super(context);
+
+    public ContactsLoader(Activity activity, String url) {
+        super(activity);
         mUrl = url;
+        mActivity = activity;
     }
 
     @Override
@@ -34,7 +39,6 @@ public class ContactsLoader extends AsyncTaskLoader<List<Contacts>> {
 
         }
         // Perform the network request, parse the response, and extract a list of contacts.
-        List<Contacts> ListContacts = QueryUtils.fetchContactsData(mUrl);
-        return ListContacts;
+        return QueryUtils.fetchContactsData(mUrl, new ContactDataSource(mActivity, new DbHelper(mActivity)));
     }
 }

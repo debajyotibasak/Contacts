@@ -2,9 +2,24 @@
     <string name="app_name">Contacts</string>
 
     <!-- Text to display in the list when there are no earthquakes [CHAR LIMIT=NONE] -->
-    <string name="no_contacts">No earthquakes found.</string>
+    <string name="no_contacts">No contacts found.</string>
 
     <!-- Error message when there is no internet connectivity [CHAR LIMIT=NONE] -->
-    +    <string name="no_internet_connection">No internet connection.</string>
+    <string name="no_internet_connection">No internet connection.</string>
+    <string name="table_name">contacts</string>
+    <string name="table_column_id">id</string>
+    <string name="table_column_name">name</string>
+    <string name="table_column_email">email</string>
+    <string name="table_column_gender">gender</string>
+    <string name="table_column_phone">phone</string>
+    <string name="database_name">contacts</string>
+
+    <string-array name="table_columns">
+        <item>id</item>
+        <item>name</item>
+        <item>email</item>
+        <item>gender</item>
+        <item>phone</item>
+    </string-array>
 
 </resources>

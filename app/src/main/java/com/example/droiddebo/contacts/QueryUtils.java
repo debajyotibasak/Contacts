@@ -26,10 +26,12 @@ public class QueryUtils {
      */
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
-    private QueryUtils() {
+
+    public QueryUtils() {
+
     }
 
-    public static List<Contacts> fetchContactsData(String requestURL) {
+    public static List<Contacts> fetchContactsData(String requestURL, ContactDataSource contactDataSource) {
         //Create URL object
         URL url = createUrl(requestURL);
 
@@ -43,8 +45,20 @@ public class QueryUtils {
         }
 
         // Extract relevant fields from the JSON response and create a list of contacts
-        List<Contacts> listContacts = extractFeatureFromJson(jsonResponse);
-        return listContacts;
+        // run extractFeatureFromJson(jsonResponse)
+        contactDataSource.open();
+        storeToDb(extractFeatureFromJson(jsonResponse), contactDataSource);
+        while (contactDataSource.isTableEmpty()) {
+            Log.w(LOG_TAG,"EMPTY TABLE");
+        }
+        List<Contacts> contacts = contactDataSource.getAllContacts();
+        contactDataSource.close();
+        if (contacts != null) {
+            return contacts;
+        }
+        else {
+            return null;
+        }
     }
 
     // Returns new URL object from the given string URL.
@@ -153,9 +167,9 @@ public class QueryUtils {
 
                 String phone = call.getString("mobile");
 
-                Contacts contacts = new Contacts(name, email, gender, phone);
+                Contacts contact = new Contacts(name, email, gender, phone);
 
-                contactList.add(contacts);
+                contactList.add(contact );
             }
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
@@ -164,5 +178,11 @@ public class QueryUtils {
             Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
         }
     return contactList;
+    }
+
+    private static void storeToDb(List<Contacts> contacts, ContactDataSource contactDataSource) {
+        for (Contacts contact: contacts) {
+            contactDataSource.createContact(contact);
+        }
     }
 }

@@ -1,8 +1,5 @@
 package com.example.droiddebo.contacts;
 
-/**
- * Created by DROID DEBO on 11-05-2017.
- */
 
 public class Contacts {
 
